@@ -40,19 +40,21 @@ class MainActivity : AppCompatActivity() {
     internal val label = findViewById(R.id.label) as TextView
     private val store = Store<State>(EmptyState())
     private val compositeDisposable = CompositeDisposable()
+    //creator of screen based on dispatched Creating Action
     val screenCreator = ScreenCreator(screenContainer, emptyMap(), HashSet(), store)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val button = findViewById(R.id.button)
-
+        //all changes
         compositeDisposable.add(
                 states(store).observeOn(mainThread())
                         .distinctUntilChanged()
                         .subscribe { it }
         )
 
+        //individual changes
         compositeDisposable.add(
                 states(store).observeOn(mainThread())
                         .map { it.error }
@@ -71,23 +73,26 @@ class MainActivity : AppCompatActivity() {
                         .distinctUntilChanged()
                         .subscribe({ this.showRefreshing(it) }, this::doLog))
 
+        //transform clicks to refresh action stream
         compositeDisposable.add(
                 clicks(button)
                         .map { click -> RefreshColorRxAction() }
                         .flatMap { it.actions() }
                         .subscribe({ store.dispatch(it) }, this::doLog))
 
+        //showing of a screen
         compositeDisposable.add(
                 states(store).observeOn(mainThread())
                         .map { it.showing }
                         .distinctUntilChanged()
-                        .subscribe(this::createNewScreen, this::doLog))
+                        .subscribe(this::showing, this::doLog))
 
+       //dispatch a single action
         store.dispatch(CreatingAction(Screen.Search))
 
     }
 
-    private fun createNewScreen(screen: Screen) {
+    private fun showing(screen: Screen) {
 
     }
 
