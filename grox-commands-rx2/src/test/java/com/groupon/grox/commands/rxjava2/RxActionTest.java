@@ -22,12 +22,12 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SingleActionCommandTest {
+public class RxActionTest {
 
   @Test
   public void actions_should_returnThis() {
     //GIVEN
-    SingleActionCommand<String> action = new SingleActionCommandUnderTest();
+    StateAction<String> action = new StateActionUnderTest();
 
     //WHEN
     final Action observedAction = action.actions().blockingFirst();
@@ -36,7 +36,7 @@ public class SingleActionCommandTest {
     assertThat(action, is(observedAction));
   }
 
-  private static class SingleActionCommandUnderTest extends SingleActionCommand<String> {
+  private static class StateActionUnderTest extends StateAction<String> {
     @Override
     public String newState(String oldState) {
       return null;

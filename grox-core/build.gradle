@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply from: rootProject.file("${quality_gradle_java_file}")
 apply plugin: 'com.github.hierynomus.license'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
@@ -8,6 +9,7 @@ dependencies {
 
   testImplementation deps.junit
   testImplementation deps.easymock
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {
@@ -23,3 +25,25 @@ license {
 }
 
 apply from: rootProject.file("${jacoco_gradle_java_file}")
+buildscript {
+  ext.kotlin_version = '1.2.71'
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
+repositories {
+  mavenCentral()
+}
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}
+compileTestKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}

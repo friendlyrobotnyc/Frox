@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: rootProject.file("${quality_gradle_android_file}")
 apply plugin: 'com.github.hierynomus.license'
 
 repositories {
   google()
+  mavenCentral()
 }
 
 android {
@@ -34,6 +36,7 @@ dependencies {
 
   testImplementation deps.junit
   testImplementation deps.easymock
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {

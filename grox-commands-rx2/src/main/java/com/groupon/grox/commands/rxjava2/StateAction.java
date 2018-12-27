@@ -15,21 +15,22 @@
  */
 package com.groupon.grox.commands.rxjava2;
 
-import static io.reactivex.Observable.just;
-
 import com.groupon.grox.Action;
+
 import io.reactivex.Observable;
 
+import static io.reactivex.Observable.just;
+
 /**
- * A simple {@link Command} that is also an {@link Action} itself. This class is useful to express
+ * A simple {@link RxAction} that is also an {@link Action} itself. This class is useful to express
  * commands that only map to a single action AND that only transform the state (i.e. that are pure
  * functions, having no side effects).
  *
  * @param <STATE> the class of the state modified by this action.
  */
-public abstract class SingleActionCommand<STATE> implements Action<STATE>, Command<STATE> {
-  @Override
-  public final Observable<? extends Action<STATE>> actions() {
-    return just(this);
-  }
+public abstract class StateAction<STATE> implements Action<STATE>, RxAction<STATE> {
+    @Override
+    public final Observable<? extends Action<STATE>> actions() {
+        return just(this);
+    }
 }

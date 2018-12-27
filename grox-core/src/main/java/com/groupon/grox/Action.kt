@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.groupon.grox;
+package com.groupon.grox
 
 /**
  * Like Redux actions, actions in grox are:
  *
- * <ul>
- *   <li>responsible for changing the state
- *   <li>they only produce a new state out of an old state. State being immutable.
- *   <li>they are pure functions, have no side effects, have no dependencies that are not pure. They
- *       are fully reproducible.
- *   <li>they are fully testable.
- * </ul>
+ *
+ *  * responsible for changing the state
+ *  * they only produce a new state out of an old state. State being immutable.
+ *  * they are pure functions, have no side effects, have no dependencies that are not pure. They
+ * are fully reproducible.
+ *  * they are fully testable.
+ *
  *
  * Typically, an action is a state less object, has no dependencies and is tested.
  *
  * @param <STATE> the class of the state.
- */
-public interface Action<STATE> {
-  STATE newState(STATE oldState);
+</STATE> */
+interface Action<STATE> {
+    fun newState(oldState: STATE): STATE
 }
