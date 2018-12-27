@@ -1,4 +1,4 @@
-# Frox (FORKED FROM Grox)
+# Frox (forked from Grox)
 Frox helps to maintain the state of Java / Android apps. 
 
 
