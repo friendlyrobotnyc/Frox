@@ -21,6 +21,7 @@ val INVALID_COLOR = -1
 data class State(val color: Int = INVALID_COLOR,
                  val error: String = "",
                  val isRefreshing: Boolean = false,
+                 val creating: Screen = Screen.Empty,
                  val showing: Screen = Screen.Empty) {
 }
 
@@ -33,4 +34,5 @@ fun EmptyState(): State = State()
 fun State.RefreshingState(): State = this.copy(isRefreshing = true, showing = this.showing)
 fun State.Success(color: Int): State = this.copy(isRefreshing = false, color = color)
 fun State.Error(error: String): State = this.copy(color = INVALID_COLOR, error = error)
-fun State.Showing(screen: Screen): State = this.copy(showing = screen)
+fun State.Showing(screen: Screen): State = this.copy(showing = screen, creating = Screen.Empty)
+fun State.Creating(screen: Screen): State = this.copy(creating = screen, showing = Screen.Empty)

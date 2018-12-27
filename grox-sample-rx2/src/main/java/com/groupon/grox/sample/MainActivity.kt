@@ -21,7 +21,7 @@ import android.util.Log
 import android.widget.TextView
 import com.groupon.grox.Store
 import com.groupon.grox.rxjava2.RxStores.states
-import com.groupon.grox.sample.action.CreatingActionFactory
+import com.groupon.grox.sample.action.CreatingAction
 import com.groupon.grox.sample.action.RefreshColorRxAction
 import com.groupon.grox.sample.rx2.R
 import com.jakewharton.rxbinding2.view.RxView.clicks
@@ -34,14 +34,13 @@ private val screenContainer = object : ScreenContainer {
     }
 }
 
-private val creatingActionFactory = CreatingActionFactory(screenContainer, emptyMap(), HashSet())
 
 class MainActivity : AppCompatActivity() {
 
     internal val label = findViewById(R.id.label) as TextView
     private val store = Store<State>(EmptyState())
     private val compositeDisposable = CompositeDisposable()
-
+    val screenCreator = ScreenCreator(screenContainer, emptyMap(), HashSet(), store)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                         .distinctUntilChanged()
                         .subscribe(this::createNewScreen, this::doLog))
 
-        store.dispatch(creatingActionFactory.new(Screen.Search))
+        store.dispatch(CreatingAction(Screen.Search))
 
     }
 

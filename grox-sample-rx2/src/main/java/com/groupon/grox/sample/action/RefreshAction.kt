@@ -17,10 +17,17 @@ package com.groupon.grox.sample.action
 
 import com.groupon.grox.Action
 import com.groupon.grox.sample.RefreshingState
+import com.groupon.grox.sample.Screen
+import com.groupon.grox.sample.Showing
 import com.groupon.grox.sample.State
 
 class RefreshAction : Action<State> {
     override fun newState(oldState: State): State {
         return oldState.RefreshingState()
     }
+}
+
+class ShowingAction(screen: Screen) : Action<State> {
+    override fun newState(oldState: State): State =
+            oldState.Showing(Screen.Search)
 }
