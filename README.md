@@ -1,29 +1,6 @@
-# Grox
-Grox helps to maintain the state of Java / Android apps. 
+# Frox (FORKED FROM Grox)
+Frox helps to maintain the state of Java / Android apps. 
 
-<table style="border:0px">
-  <tr  style="border:0px">
-    <td width="125" style="border:0px">
-      <img src="https://raw.github.com/groupon/grox/master/assets/grox-logo.png" width="125px" /> 
-    </td>
-    <td  style="border:0px">
-      <a alt="Build Status" href="https://travis-ci.org/groupon/grox">
-      <img src="https://travis-ci.org/groupon/grox.svg?branch=master"/></a>
-      <br/>
-       <a alt="Maven Central" href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22grox-core%22">
-      <img src="https://img.shields.io/maven-central/v/com.groupon.grox/grox-core.svg?maxAge=2592000"/></a>
-      <br/>
-       <br/>
-      <a href="https://codecov.io/gh/groupon/grox">
-        <img src="https://codecov.io/gh/groupon/grox/branch/master/graph/badge.svg" />
-      </a>
-       <br/>
-       <a alt="Android Dev Weekly" href="http://androidweekly.net/issues/issue-282">
-      <img src="https://img.shields.io/badge/Android%20Weekly-%23207-brightgreen.svg"/></a>
-      <br/>
-    </td>
-  </tr>
-</table>
 
 ## Understanding Grox
 
@@ -60,7 +37,7 @@ store.dispatch(oldState -> oldState + " Grox");
 
 A command example
 ```java
-public class RefreshResultCommand implements Command {
+public class RefreshResultRxAction implements RxAction {
  @Override
   public Observable<Action> actions() {
     return getResultFromServer() //via retrofit
@@ -72,29 +49,18 @@ public class RefreshResultCommand implements Command {
   }
 }
 
-//then use your command via Rx + RxBinding
+//then use your RxAction via Rx + RxBinding
 subscriptions.add(
         clicks(button)
-            .map(click -> new RefreshResultCommand())
+            .map(click -> new RefreshResulRxAction())
             .flatMap(Command::actions)
             .subscribe(store::dispatch));
 ```
 
-Note that such a command should be unsubscribed from when the UI element (e.g. an activity) containing the button `button` will no longer be alive. Otherwise, the Rx chain would leak it.
 
-However, if you preserve your store accross configuration changes (using ViewModels, Dependency Injection (Toothpick/Dagger), retained fragments, etc.), you can also execute commands independently of the lifecycle of the UI:
 
-```java
-//then use your command via Rx + RxBinding
-subscriptions.add(
-        clicks(button)
-            .subscribe(click -> new RefreshResultCommand()
-                                .actions()
-                                .subscribe(store::dispatch)));
-```     
-In this case, only the outer chain needs to be unsubcribed from when the UI elements are not alive anymore, the inner chain will be preserved during rotation and udpate the store even during a configuration change (e.g. a rotation), and the UI will display the latest when connecting to the store when the rotation is complete. A fine grained management of resources would unsubscribe from the inner chain when the store is not alive anymore.
 
-Browse [Grox sample](grox-sample-rx/src/main/java/com/groupon/grox/sample) for more details.
+Browse [Grox sample](grox-sample-rx2/src/main/java/com/groupon/grox/sample) for more details.
 
 ## Setup
 
@@ -112,9 +78,7 @@ The main features of Grox are:
 * allows time travel debugging, undo, redo, logging, etc. via middlewares.
 * simple API. Grox is inspired by Redux & Flux but offers a simpler approach.
 * easily integrated with Rx1 and 2. Note that it is also possible to use Grox without Rx.
-* Grox only relies on a few concepts: States, Actions, Stores, MiddleWare &  Commands (detailed below).
-* facilitates using immutable states, but without enforcing it for more flexibility. You can use any solution for immutability ([Auto-Value](https://github.com/google/auto/tree/master/value), [Immutables](https://immutables.github.io/), [Kotlin](https://discuss.kotlinlang.org/t/immutable/1032), etc..) or not use immutability at all if you don't want to.
-* Grox can be used with the [Android Arch components](https://developer.android.com/arch), or without them.
+* Grox only relies on a few concepts: States, Actions, Stores, MiddleWare.
 
 ## Links
 * [Travis CI](https://travis-ci.org/groupon/grox)
