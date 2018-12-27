@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.groupon.grox.sample;
+package com.groupon.grox.sample.action
 
-import com.groupon.grox.Action;
+import com.groupon.grox.Action
+import com.groupon.grox.sample.RefreshingState
+import com.groupon.grox.sample.State
 
-public class RefreshAction implements Action<State> {
-
-  @Override
-  public State newState(State oldState) {
-    return State.refreshing();
-  }
+class RefreshAction : Action<State> {
+    override fun newState(oldState: State): State {
+        return oldState.RefreshingState()
+    }
 }

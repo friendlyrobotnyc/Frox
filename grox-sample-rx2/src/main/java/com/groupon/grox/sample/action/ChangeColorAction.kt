@@ -13,20 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.groupon.grox.sample;
+package com.groupon.grox.sample.action
 
-import com.groupon.grox.Action;
+import com.groupon.grox.Action
+import com.groupon.grox.sample.State
+import com.groupon.grox.sample.Success
 
-public class ErrorAction implements Action<State> {
+class ChangeColorAction(private val color: Int) : Action<State> {
 
-  private String msg;
+    override fun newState(state: State): State {
+        return state.Success(color)
 
-  public ErrorAction(Throwable error) {
-    this.msg = error.getMessage();
-  }
-
-  @Override
-  public State newState(State oldState) {
-    return State.error(msg);
-  }
+    }
 }
+
